@@ -1,0 +1,7 @@
+**/target/
+.idea
+*.iml
+*.class
+**/application-q.yml
+*Test.java
+**/test/
