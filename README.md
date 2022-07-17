@@ -19,4 +19,4 @@ Spring Task
 
 #### **项目效果展示**
 
-![img.png](img/img.png)![](https://i0.hdslb.com/bfs/album/cd84616d66904802bf081188631752d863c2f489.png)
+![img.png](img/img.png)
