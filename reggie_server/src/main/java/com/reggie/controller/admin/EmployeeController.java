@@ -1,4 +1,4 @@
-package com.reggie.controller;
+package com.reggie.controller.admin;
 
 
 import com.reggie.annotation.IgnoreToken;
