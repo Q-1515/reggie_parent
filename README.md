@@ -18,5 +18,4 @@ Spring Task
 微信小程序
 
 #### **项目效果展示**
-
 ![img.png](img/img.png)

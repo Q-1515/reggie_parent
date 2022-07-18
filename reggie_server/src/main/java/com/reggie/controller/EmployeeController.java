@@ -1,6 +1,7 @@
 package com.reggie.controller;
 
 
+import com.reggie.annotation.IgnoreToken;
 import com.reggie.constant.JwtClaimsConstant;
 import com.reggie.dto.EmployeeLoginDTO;
 import com.reggie.entity.Employee;
@@ -11,10 +12,7 @@ import com.reggie.utils.JwtUtil;
 import com.reggie.vo.EmployeeLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -31,6 +29,17 @@ public class EmployeeController {
 
     @Autowired
     private JwtProperties jwtProperties;   //jwt令牌相关配置类
+
+    /**
+     * 测试方法，用于测试jwt校验
+     * @return
+     */
+    @IgnoreToken //自定义放行拦截注解
+    @GetMapping("/testJwt")
+    public R<String> testJwt(){
+        return R.success("jwt test");
+    }
+
 
     /**
      * 员工登录
