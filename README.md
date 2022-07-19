@@ -4,6 +4,10 @@
 瑞吉外卖项目，一款为餐饮企业打造的在线订餐软件
 
 #### 前端代码
+「project-rjwm-admin-vue-ts.exe」
+https://www.aliyundrive.com/s/AnRReoe66dQ
+双击解压即可  
+根目录cmd运行  npm run serve
 
 #### 技术架构
 
