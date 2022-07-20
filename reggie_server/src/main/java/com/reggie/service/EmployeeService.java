@@ -3,6 +3,7 @@ package com.reggie.service;
 import com.reggie.dto.EmployeeDTO;
 import com.reggie.dto.EmployeeLoginDTO;
 import com.reggie.dto.EmployeePageQueryDTO;
+import com.reggie.dto.PasswordEditDTO;
 import com.reggie.entity.Employee;
 import com.reggie.result.PageResult;
 
@@ -21,4 +22,6 @@ public interface EmployeeService {
     Employee getById(Long id);
 
     void update(EmployeeDTO employeeDTO);
+
+    void editPassword(PasswordEditDTO passwordEditDTO);
 }

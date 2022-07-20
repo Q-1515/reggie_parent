@@ -9,9 +9,11 @@ import com.reggie.context.BaseContext;
 import com.reggie.dto.EmployeeDTO;
 import com.reggie.dto.EmployeeLoginDTO;
 import com.reggie.dto.EmployeePageQueryDTO;
+import com.reggie.dto.PasswordEditDTO;
 import com.reggie.entity.Employee;
 import com.reggie.exception.AccountLockedException;
 import com.reggie.exception.AccountNotFoundException;
+import com.reggie.exception.PasswordEditFailedException;
 import com.reggie.exception.PasswordErrorException;
 import com.reggie.mapper.EmployeeMapper;
 import com.reggie.result.PageResult;
@@ -114,13 +116,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     //根据id查询员工
-    @Override
     public Employee getById(Long id) {
         return employeeMapper.getById(id);
     }
 
     //编辑员工信息
-    @Override
     public void update(EmployeeDTO employeeDTO) {
         //将参数复制到员工对象
         Employee employee = new Employee();
@@ -134,5 +134,39 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeMapper.update(employee);
 
+    }
+
+    //员工修改密码
+    @Override
+    public void editPassword(PasswordEditDTO passwordEditDTO) {
+        String oldPassword = passwordEditDTO.getOldPassword();
+        String newPassword = passwordEditDTO.getNewPassword();
+
+        //根据token令牌获取id
+        Long empId = BaseContext.getCurrentId();
+
+        //根据返还对象
+        Employee employee = employeeMapper.getById(empId);
+
+        //判断对象是否为空
+        if (employee == null) {
+            throw new PasswordEditFailedException(MessageConstant.PASSWORD_EDIT_FAILED);
+        }
+
+        //对旧密码明文进行md5
+        oldPassword = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
+
+        //判断旧密码书否正确
+        if (!employee.getPassword().equals(oldPassword)) {
+            throw new PasswordErrorException(MessageConstant.PASSWORD_EDIT_FAILED);
+        }
+
+        //对新密码明文进行md5
+        newPassword = DigestUtils.md5DigestAsHex(newPassword.getBytes());
+        Employee emp = Employee.builder()
+                .id(empId)
+                .password(newPassword).build();
+
+        employeeMapper.update(emp);
     }
 }

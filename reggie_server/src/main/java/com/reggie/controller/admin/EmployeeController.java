@@ -6,6 +6,7 @@ import com.reggie.constant.JwtClaimsConstant;
 import com.reggie.dto.EmployeeDTO;
 import com.reggie.dto.EmployeeLoginDTO;
 import com.reggie.dto.EmployeePageQueryDTO;
+import com.reggie.dto.PasswordEditDTO;
 import com.reggie.entity.Employee;
 import com.reggie.properties.JwtProperties;
 import com.reggie.result.PageResult;
@@ -144,17 +145,33 @@ public class EmployeeController {
     @GetMapping("/{id}")
     @ApiOperation("根据id查询员工接口")
     public R<Employee> getById(@PathVariable Long id) {
+        log.info("根据id查询员工接口");
         return R.success(employeeService.getById(id));
     }
 
     /**
      * 编辑员工信息
+     *
      * @return success
      */
     @PutMapping
     @ApiOperation("编辑员工信息接口")
-    public R<String> update(@RequestBody EmployeeDTO employeeDTO){
+    public R<String> update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("编辑员工信息接口");
         employeeService.update(employeeDTO);
+        return R.success("修改成功");
+    }
+
+    /**
+     * 员工修改密码
+     *
+     * @return success
+     */
+    @PutMapping("/editPassword")
+    @ApiOperation("员工修改密码")
+    public R<String> editPassword(@RequestBody PasswordEditDTO passwordEditDTO) {
+        log.info("员工修改密码");
+        employeeService.editPassword(passwordEditDTO);
         return R.success("修改成功");
     }
 
