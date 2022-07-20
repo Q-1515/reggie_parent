@@ -37,7 +37,7 @@ public class EmployeeController {
     /**
      * 测试方法，用于测试jwt校验
      *
-     * @return
+     * @return 返回success
      */
     @ApiOperation("Jwt测试接口")
     @IgnoreToken //自定义放行拦截注解
