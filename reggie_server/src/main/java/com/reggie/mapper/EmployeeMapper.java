@@ -12,4 +12,10 @@ public interface EmployeeMapper {
      */
     Employee getByUsername(String username);
 
+
+    /**
+     * 添加员工
+     * @param employee 员工对象
+     */
+    void save(Employee employee);
 }

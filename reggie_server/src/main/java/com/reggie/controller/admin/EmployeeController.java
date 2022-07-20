@@ -3,6 +3,7 @@ package com.reggie.controller.admin;
 
 import com.reggie.annotation.IgnoreToken;
 import com.reggie.constant.JwtClaimsConstant;
+import com.reggie.dto.EmployeeDTO;
 import com.reggie.dto.EmployeeLoginDTO;
 import com.reggie.entity.Employee;
 import com.reggie.properties.JwtProperties;
@@ -52,8 +53,8 @@ public class EmployeeController {
      * @param employeeLoginDTO 用户账号密码
      * @return 登录员工信息
      */
-    @ApiOperation("员工登录接口")
     @PostMapping("/login")
+    @ApiOperation("员工登录接口")
     public R<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("员工登录：用户名{}，密码{}", employeeLoginDTO.getUsername(), employeeLoginDTO.getPassword());
         //调用业务登录返回对象
@@ -80,11 +81,27 @@ public class EmployeeController {
 
     /**
      * 员工退出
-     * @return
+     *
+     * @return 返回success
      */
-    @ApiOperation("员工退出接口")
     @PostMapping("/logout")
-    public R logout() {
+    @ApiOperation("员工退出接口")
+    public R<String> logout() {
         return R.success("退出登录");
+    }
+
+
+    /**
+     * 员工注册
+     *
+     * @param employeeDTO  获取添加的员工表单
+     * @return  返回success
+     */
+    @PostMapping
+    @ApiOperation("员工注册")
+    public R<String> add(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("新增员工:{}", employeeDTO);
+        employeeService.save(employeeDTO);
+        return R.success();
     }
 }

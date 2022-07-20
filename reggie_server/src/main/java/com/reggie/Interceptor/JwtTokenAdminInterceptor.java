@@ -1,6 +1,8 @@
 package com.reggie.Interceptor;
 
 import com.reggie.annotation.IgnoreToken;
+import com.reggie.constant.JwtClaimsConstant;
+import com.reggie.context.BaseContext;
 import com.reggie.properties.JwtProperties;
 import com.reggie.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -48,6 +50,12 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         try {
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+
+            //获取员工id
+            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            //将员工id存入ThreadLocal中
+            BaseContext.setCurrentId(empId);
+
         } catch (Exception e) {
             log.error("jwt令牌解析失败");
             //401代表用户没有访问权限，需要进行身份认证
