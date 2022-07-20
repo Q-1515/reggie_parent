@@ -9,14 +9,16 @@ import org.apache.ibatis.annotations.Mapper;
 public interface EmployeeMapper {
     /**
      * 根据用户名查询员工
-     * @param username  用户名
-     * @return  员工对象
+     *
+     * @param username 用户名
+     * @return 员工对象
      */
     Employee getByUsername(String username);
 
 
     /**
      * 添加员工
+     *
      * @param employee 员工对象
      */
     void save(Employee employee);
@@ -24,8 +26,14 @@ public interface EmployeeMapper {
 
     /**
      * 查询员工
+     *
      * @param employeePageQueryDTO (name,page,pageSize)
-     * @return  PageResult(分页个数,员工集合)
+     * @return PageResult(分页个数, 员工集合)
      */
     Page<Employee> PageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     * 修改员工状态
+     */
+    void updateStartusById(Employee employee);
 }

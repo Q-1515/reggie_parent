@@ -28,8 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
 
-
-    @Override
+    //员工登录
     public Employee login(EmployeeLoginDTO employeeLoginDTO) {
         String username = employeeLoginDTO.getUsername();
         String password = employeeLoginDTO.getPassword();
@@ -56,6 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    //员工添加
     public void save(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         //对象的拷贝
@@ -84,6 +84,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+
+    //员工分页查询
     public PageResult PageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //分页查询插件自动生成分页功能
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
@@ -91,5 +93,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //返回封装PageResult对象
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+
+    //账号的启用和禁用
+    public void startOrStop(Integer status, Long id) {
+        Employee employee = new Employee();
+        //设置员工状态
+        employee.setStatus(status);
+        //设置员工id
+        employee.setId(id);
+
+        //设置员工修改时间
+        employee.setUpdateTime(LocalDateTime.now());
+
+        //获取ThreadLocal中的empId(员工id)
+        Long empId = BaseContext.getCurrentId();
+
+        //当前用户的id
+        employee.setUpdateUser(empId);
+
+        employeeMapper.updateStartusById(employee);
     }
 }

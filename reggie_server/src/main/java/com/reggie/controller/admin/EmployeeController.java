@@ -120,4 +120,19 @@ public class EmployeeController {
         PageResult pageResult = employeeService.PageQuery(employeePageQueryDTO);
         return R.success(pageResult);
     }
+
+    /**
+     * 启用、禁用员工接口
+     *
+     * @param status 状态
+     * @param id     员工id
+     * @return 返回success
+     */
+    @PostMapping ("/status/{status}")
+    @ApiOperation("启用、禁用员工接口")
+    public R<String> startOrStop(@PathVariable Integer status, Long id) {
+        log.info("启用、禁用员工接口");
+        employeeService.startOrStop(status,id);
+        return R.success("状态跟新成功");
+    }
 }
