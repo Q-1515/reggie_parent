@@ -1,16 +1,20 @@
 package com.reggie.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.reggie.constant.MessageConstant;
 import com.reggie.constant.PasswordConstant;
 import com.reggie.constant.StatusConstant;
 import com.reggie.context.BaseContext;
 import com.reggie.dto.EmployeeDTO;
 import com.reggie.dto.EmployeeLoginDTO;
+import com.reggie.dto.EmployeePageQueryDTO;
 import com.reggie.entity.Employee;
 import com.reggie.exception.AccountLockedException;
 import com.reggie.exception.AccountNotFoundException;
 import com.reggie.exception.PasswordErrorException;
 import com.reggie.mapper.EmployeeMapper;
+import com.reggie.result.PageResult;
 import com.reggie.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +82,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeMapper.save(employee);
 
+    }
+
+    public PageResult PageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        //分页查询插件自动生成分页功能
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+        Page<Employee> page = employeeMapper.PageQuery(employeePageQueryDTO);
+
+        //返回封装PageResult对象
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }

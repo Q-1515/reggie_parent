@@ -17,4 +17,15 @@
                 #{updateTime}, #{createUser}, #{createUser})
     </insert>
 
+    <select id="PageQuery" resultType="com.reggie.entity.Employee">
+        select * from employee
+        <where>
+            <if test="name != null and name != ''">
+                name like "%"#{name}"%"
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+
 </mapper>
