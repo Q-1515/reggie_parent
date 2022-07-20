@@ -107,12 +107,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         //设置员工修改时间
         employee.setUpdateTime(LocalDateTime.now());
 
-        //获取ThreadLocal中的empId(员工id)
-        Long empId = BaseContext.getCurrentId();
-
-        //当前用户的id
-        employee.setUpdateUser(empId);
+        //设置修改人
+        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.updateStartusById(employee);
+    }
+
+    //根据id查询员工
+    @Override
+    public Employee getById(Long id) {
+        return employeeMapper.getById(id);
+    }
+
+    //编辑员工信息
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        //将参数复制到员工对象
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        //设置员工修改时间
+        employee.setUpdateTime(LocalDateTime.now());
+
+        //设置修改人
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.update(employee);
+
     }
 }

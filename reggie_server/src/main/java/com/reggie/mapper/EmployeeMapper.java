@@ -36,4 +36,19 @@ public interface EmployeeMapper {
      * 修改员工状态
      */
     void updateStartusById(Employee employee);
+
+
+    /**
+     * 根据id回显员工
+     * @param id 员工id
+     * @return 员工对象
+     */
+    Employee getById(Long id);
+
+
+    /**
+     * 编辑员工信息
+     * @param employee 员工参数
+     */
+    void update(Employee employee);
 }

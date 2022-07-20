@@ -128,11 +128,34 @@ public class EmployeeController {
      * @param id     员工id
      * @return 返回success
      */
-    @PostMapping ("/status/{status}")
+    @PostMapping("/status/{status}")
     @ApiOperation("启用、禁用员工接口")
     public R<String> startOrStop(@PathVariable Integer status, Long id) {
         log.info("启用、禁用员工接口");
-        employeeService.startOrStop(status,id);
+        employeeService.startOrStop(status, id);
         return R.success("状态跟新成功");
     }
+
+    /**
+     * 根据id查询员工
+     *
+     * @return 员工对象
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工接口")
+    public R<Employee> getById(@PathVariable Long id) {
+        return R.success(employeeService.getById(id));
+    }
+
+    /**
+     * 编辑员工信息
+     * @return success
+     */
+    @PutMapping
+    @ApiOperation("编辑员工信息接口")
+    public R<String> update(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.update(employeeDTO);
+        return R.success("修改成功");
+    }
+
 }
