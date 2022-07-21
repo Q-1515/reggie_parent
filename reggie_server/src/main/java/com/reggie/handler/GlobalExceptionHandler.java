@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
         if (ex.getMessage().contains("Duplicate entry")) {
             //获取重复员工账号 'xiaohua'
             String s = ex.getMessage().split(" ")[2];
-            return R.error(s + "账号存在");
+            return R.error(s + "已存在");
 
         }
         return R.error("未知异常");

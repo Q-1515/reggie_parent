@@ -12,7 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
@@ -37,6 +36,7 @@ public class AutoFillAspect {
 
     /**
      * 前置增强填充字段
+     *
      * @param joinPoint
      */
     @Before("autoFillPointcut()")

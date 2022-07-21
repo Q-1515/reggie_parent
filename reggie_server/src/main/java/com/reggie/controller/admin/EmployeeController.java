@@ -130,9 +130,9 @@ public class EmployeeController {
      * @return 返回success
      */
     @PostMapping("/status/{status}")
-    @ApiOperation("启用、禁用员工接口")
+    @ApiOperation("启用、禁用员工")
     public R<String> startOrStop(@PathVariable Integer status, Long id) {
-        log.info("启用、禁用员工接口");
+        log.info("启用、禁用员工:{},{}",status,id);
         employeeService.startOrStop(status, id);
         return R.success("状态跟新成功");
     }
@@ -145,7 +145,7 @@ public class EmployeeController {
     @GetMapping("/{id}")
     @ApiOperation("根据id查询员工接口")
     public R<Employee> getById(@PathVariable Long id) {
-        log.info("根据id查询员工接口");
+        log.info("根据id查询员工:{}",id);
         return R.success(employeeService.getById(id));
     }
 
@@ -157,7 +157,7 @@ public class EmployeeController {
     @PutMapping
     @ApiOperation("编辑员工信息接口")
     public R<String> update(@RequestBody EmployeeDTO employeeDTO) {
-        log.info("编辑员工信息接口");
+        log.info("编辑员工信息:{}",employeeDTO);
         employeeService.update(employeeDTO);
         return R.success("修改成功");
     }
@@ -170,7 +170,7 @@ public class EmployeeController {
     @PutMapping("/editPassword")
     @ApiOperation("员工修改密码")
     public R<String> editPassword(@RequestBody PasswordEditDTO passwordEditDTO) {
-        log.info("员工修改密码");
+        log.info("员工修改密码:{}",passwordEditDTO);
         employeeService.editPassword(passwordEditDTO);
         return R.success("修改成功");
     }
