@@ -3,6 +3,7 @@ package com.reggie.controller.admin;
 
 import com.reggie.dto.CategoryDTO;
 import com.reggie.dto.CategoryPageQueryDTO;
+import com.reggie.entity.Category;
 import com.reggie.result.PageResult;
 import com.reggie.result.R;
 import com.reggie.service.CategoryService;
@@ -11,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/category")
@@ -89,9 +92,23 @@ public class CategoryController {
     @PostMapping("/status/{status}")
     @ApiOperation("分类 启用/禁用")
     public R<String> startOrStop(@PathVariable Integer status, Long id) {
-        log.info("分类 启用/禁用:{}，{}", status,id);
-        categoryService.startOrStop(status,id);
+        log.info("分类 启用/禁用:{}，{}", status, id);
+        categoryService.startOrStop(status, id);
         return R.success("状态更新成功");
+    }
+
+    /**
+     * 根据类型查询分类
+     *
+     * @param type 分类类型
+     * @return 所有  菜品/套餐
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据类型查询分类")
+    public R<List<Category>> list(Integer type) {
+        log.info("根据类型查询分类:{}", type);
+        List<Category> list = categoryService.list(type);
+        return R.success(list);
     }
 
 

@@ -3,7 +3,10 @@ package com.reggie.service;
 
 import com.reggie.dto.CategoryDTO;
 import com.reggie.dto.CategoryPageQueryDTO;
+import com.reggie.entity.Category;
 import com.reggie.result.PageResult;
+
+import java.util.List;
 
 public interface CategoryService {
     //新增分类
@@ -20,4 +23,7 @@ public interface CategoryService {
 
     //启用/禁用 分类
     void startOrStop(Integer status, Long id);
+
+    //根据类型查询分类
+    List<Category> list(Integer type);
 }
