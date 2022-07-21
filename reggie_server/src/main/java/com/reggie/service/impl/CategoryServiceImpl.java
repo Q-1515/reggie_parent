@@ -88,4 +88,19 @@ public class CategoryServiceImpl implements CategoryService {
         //删除分类
         categoryMapper.deleteById(id);
     }
+
+
+    /**
+     * 修改分类
+     *
+     * @param categoryDTO 修改id 修改name 修改sort
+     */
+    public void update(CategoryDTO categoryDTO) {
+        //拷贝数据
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
+
+        categoryMapper.update(category);
+
+    }
 }

@@ -33,7 +33,7 @@ public class CategoryController {
     public R<String> save(@RequestBody CategoryDTO categoryDTO) {
         log.info("新增分类:{}", categoryDTO);
         categoryService.save(categoryDTO);
-        return R.success("添加成功");
+        return R.success("分类添加成功");
     }
 
 
@@ -62,7 +62,20 @@ public class CategoryController {
     public R<String> deleteById(Long id) {
         log.info("删除分类:{}", id);
         categoryService.deleteById(id);
-        return R.success("删除成功");
+        return R.success("分类删除成功");
+    }
+
+    /**
+     * 修改分类
+     * @param categoryDTO 修改id 修改name 修改sort
+     * @return success
+     */
+    @PutMapping
+    @ApiOperation("修改分类")
+    public R<String> update(@RequestBody CategoryDTO categoryDTO) {
+        log.info("修改分类:{}", categoryDTO);
+        categoryService.update(categoryDTO);
+        return R.success("分类修改成功");
     }
 
 
