@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.reggie.mapper.SetmealMapper">
 
+    <!--根据分类id查询对应的套餐数量-->
     <select id="cuntByCategoryId" resultType="java.lang.Long">
         select count(*)
         from setmeal
