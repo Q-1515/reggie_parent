@@ -98,9 +98,24 @@ public class CategoryServiceImpl implements CategoryService {
     public void update(CategoryDTO categoryDTO) {
         //拷贝数据
         Category category = new Category();
-        BeanUtils.copyProperties(categoryDTO,category);
+        BeanUtils.copyProperties(categoryDTO, category);
 
         categoryMapper.update(category);
 
+    }
+
+    /**
+     * 启用/禁用 分类
+     *
+     * @param status 状态码
+     * @param id     分类id
+     */
+    public void startOrStop(Integer status, Long id) {
+        Category category = Category.builder()
+                .id(id)
+                .status(status)
+                .build();
+
+        categoryMapper.update(category);
     }
 }

@@ -67,6 +67,7 @@ public class CategoryController {
 
     /**
      * 修改分类
+     *
      * @param categoryDTO 修改id 修改name 修改sort
      * @return success
      */
@@ -76,6 +77,21 @@ public class CategoryController {
         log.info("修改分类:{}", categoryDTO);
         categoryService.update(categoryDTO);
         return R.success("分类修改成功");
+    }
+
+    /**
+     * 启用/禁用 分类
+     *
+     * @param status 状态码
+     * @param id     分类id
+     * @return success
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("分类 启用/禁用")
+    public R<String> startOrStop(@PathVariable Integer status, Long id) {
+        log.info("分类 启用/禁用:{}，{}", status,id);
+        categoryService.startOrStop(status,id);
+        return R.success("状态更新成功");
     }
 
 

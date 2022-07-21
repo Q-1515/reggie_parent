@@ -17,4 +17,7 @@ public interface CategoryService {
 
     //修改分类
     void update(CategoryDTO categoryDTO);
+
+    //启用/禁用 分类
+    void startOrStop(Integer status, Long id);
 }
