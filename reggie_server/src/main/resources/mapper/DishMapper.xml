@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.reggie.mapper.DishMapper">
+
+    <!--根据分类id查询对应的菜品数量-->
+    <select id="cuntByCategoryId" resultType="java.lang.Long">
+        select count(id)
+        from dish
+        where category_id = #{id};
+    </select>
+</mapper>

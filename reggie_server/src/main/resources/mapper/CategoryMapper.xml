@@ -23,4 +23,11 @@
         </where>
         order by sort
     </select>
+
+    <!--删除分类-->
+    <delete id="deleteById">
+        delete
+        from category
+        where id = #{id}
+    </delete>
 </mapper>

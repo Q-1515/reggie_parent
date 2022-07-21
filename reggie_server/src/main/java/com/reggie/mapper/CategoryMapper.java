@@ -17,4 +17,7 @@ public interface CategoryMapper {
 
     //分类信息分页查询
     Page<Category> pageQuery(CategoryPageQueryDTO categoryPageQueryDTO);
+
+    //删除分类
+    void deleteById(Long id);
 }

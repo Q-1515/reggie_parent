@@ -2,11 +2,15 @@ package com.reggie.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.reggie.constant.MessageConstant;
 import com.reggie.constant.StatusConstant;
 import com.reggie.dto.CategoryDTO;
 import com.reggie.dto.CategoryPageQueryDTO;
 import com.reggie.entity.Category;
+import com.reggie.exception.DeletionNotAllowedException;
 import com.reggie.mapper.CategoryMapper;
+import com.reggie.mapper.DishMapper;
+import com.reggie.mapper.SetmealMapper;
 import com.reggie.result.PageResult;
 import com.reggie.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +24,13 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private CategoryMapper categoryMapper;
+    private CategoryMapper categoryMapper; //分类 DAO
+
+    @Autowired
+    private DishMapper dishMapper;  //菜品DAO
+
+    @Autowired
+    private SetmealMapper setmealMapper;  // 套餐DAO
 
     /**
      * 新增分类
@@ -53,6 +63,29 @@ public class CategoryServiceImpl implements CategoryService {
 
         Page<Category> page = categoryMapper.pageQuery(categoryPageQueryDTO);
 
-        return new PageResult(page.getTotal(),page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /**
+     * 根据id删除分类
+     *
+     * @param id 要删除分类的id
+     */
+    public void deleteById(Long id) {
+        //根据分类id查询对应的菜品数量
+        Long dishCount = dishMapper.cuntByCategoryId(id);
+        if (dishCount > 0) {
+            //当前关联了菜品不能删除
+            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
+        }
+
+        //根据分类id查询对应的套餐数量
+        Long setmealCount = setmealMapper.cuntByCategoryId(id);
+        if (setmealCount > 0) {
+            //当前关联了套餐不能删除
+            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
+        }
+        //删除分类
+        categoryMapper.deleteById(id);
     }
 }
