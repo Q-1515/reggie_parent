@@ -1,11 +1,16 @@
 package com.reggie.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.reggie.dto.DishDTO;
+import com.reggie.dto.DishPageQueryDTO;
 import com.reggie.entity.Dish;
 import com.reggie.entity.DishFlavor;
 import com.reggie.mapper.DishFlavorMapper;
 import com.reggie.mapper.DishMapper;
+import com.reggie.result.PageResult;
 import com.reggie.service.DishService;
+import com.reggie.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +51,26 @@ public class DishServiceImpl implements DishService {
         }
 
         //循环添加id
-        flavors.forEach( item -> {
+        flavors.forEach(item -> {
             //设置口味关联的菜品id
             item.setDishId(dishId);
         });
 
         //插入菜品口味
         dishFlavorMapper.insert(flavors);
+    }
 
+    /**
+     * 菜品信息分页查询
+     *
+     * @param dishPageQueryDTO 页数，每页记录数，菜品名称，分类id，菜品售卖状态
+     * @return PageResult 总页数，菜品对象
+     */
+    public PageResult page(DishPageQueryDTO dishPageQueryDTO) {
+        //分页插件自动填充分页命令
+        PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
+        Page<DishVO> page = dishFlavorMapper.PageQuery(dishPageQueryDTO);
 
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }
