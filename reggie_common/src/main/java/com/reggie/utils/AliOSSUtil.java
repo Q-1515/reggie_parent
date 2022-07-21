@@ -5,12 +5,14 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import java.io.ByteArrayInputStream;
 
 @Data
 @AllArgsConstructor
+@Builder
 @Slf4j
 public class AliOSSUtil {
 
