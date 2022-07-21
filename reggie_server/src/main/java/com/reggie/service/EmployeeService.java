@@ -17,11 +17,15 @@ public interface EmployeeService {
     //分页查询员工
    PageResult PageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
+    //账号的启用和禁用
     void startOrStop(Integer status, Long id);
 
+    //根据id查询员工
     Employee getById(Long id);
 
+    //编辑员工信息
     void update(EmployeeDTO employeeDTO);
 
+    //员工修改密码
     void editPassword(PasswordEditDTO passwordEditDTO);
 }
