@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: q
+    active: q  #修改成dev
   datasource:
     druid:
       driver-class-name: ${reggie.datasource.driver-class-name}
