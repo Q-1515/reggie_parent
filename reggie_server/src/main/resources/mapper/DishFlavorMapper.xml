@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.reggie.mapper.DishFlavorMapper">
+
+    <!--插入菜品口味-->
+    <insert id="insert">
+        insert into dish_flavor(dish_id, name, value) values
+        <foreach collection="flavors" item="flavor" separator=",">
+            (#{flavor.dishId},#{flavor.name},#{flavor.value})
+        </foreach>
+    </insert>
 </mapper>

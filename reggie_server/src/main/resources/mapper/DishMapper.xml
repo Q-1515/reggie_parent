@@ -8,4 +8,16 @@
         from dish
         where category_id = #{id};
     </select>
+
+    <!--
+        插入数据到菜品表  id回传给口味表
+        useGeneratedKeys设置为true：在执行插入记录之后可以获取到数据库自动生成的主键值
+        keyProperty：指定Java对象的属性名
+    -->
+    <insert id="insert" parameterType="Dish" useGeneratedKeys="true" keyProperty="id">
+        insert into dish (name, category_id, price, image, description, status, create_time, update_time,
+                          create_user, update_user)
+        values (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{updateTime},
+                #{createUser}, #{updateUser})
+    </insert>
 </mapper>
