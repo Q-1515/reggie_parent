@@ -3,6 +3,7 @@ package com.reggie.config;
 import com.reggie.properties.AliOSSProperties;
 import com.reggie.utils.AliOSSUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,6 +21,7 @@ public class OSSConfiguration {
      * @return 对象存储
      */
     @Bean
+    @ConditionalOnMissingBean
     public AliOSSUtil aliOSSUtil(AliOSSProperties aliOSSProperties) {
         return AliOSSUtil.builder()
                 .endpoint(aliOSSProperties.getEndpoint())

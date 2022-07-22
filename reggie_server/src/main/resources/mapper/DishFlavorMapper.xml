@@ -10,21 +10,9 @@
         </foreach>
     </insert>
 
-    <!--菜品信息分页查询-->
-    <select id="PageQuery" resultType="com.reggie.vo.DishVO">
-        select d.*,c.name as categoryName
-        from dish d left join category c on c.id = d.category_id
-        <where>
-            <if test="name !=null and name !=''">
-                d.name like "%"#{name}"%"
-            </if>
-            <if test="categoryId != null">
-                and d.category_id = #{categoryId}
-            </if>
-            <if test="status != null">
-                and d.status = #{status}
-            </if>
-        </where>
-        order by d.create_time desc
-    </select>
+
+    <!--删除菜品口味表中的数据-->
+    <delete id="deleteByDishId">
+        delete from dish_flavor where dish_id =#{dishId}
+    </delete>
 </mapper>

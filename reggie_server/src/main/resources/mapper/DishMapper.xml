@@ -20,4 +20,36 @@
         values (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{updateTime},
                 #{createUser}, #{updateUser})
     </insert>
+
+    <!--菜品信息分页查询-->
+    <select id="PageQuery" resultType="com.reggie.vo.DishVO">
+        select d.*,c.name as categoryName
+        from dish d left join category c on c.id = d.category_id
+        <where>
+            <if test="name !=null and name !=''">
+                d.name like "%"#{name}"%"
+            </if>
+            <if test="categoryId != null">
+                and d.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and d.status = #{status}
+            </if>
+        </where>
+        order by d.create_time desc
+    </select>
+
+    <!--根据id查询所有菜品-->
+    <select id="selectById" resultType="com.reggie.entity.Dish">
+        select *
+        from dish
+        where id = #{dishId};
+    </select>
+
+    <!--根据id删除菜品-->
+    <delete id="deleteById">
+        delete
+        from dish
+        where id = #{dishId}
+    </delete>
 </mapper>

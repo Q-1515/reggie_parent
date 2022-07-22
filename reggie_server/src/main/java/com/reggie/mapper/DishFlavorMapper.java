@@ -15,6 +15,6 @@ public interface DishFlavorMapper {
     //插入菜品口味
     void insert(@Param("flavors") List<DishFlavor> flavors);
 
-    //菜品信息分页查询
-    Page<DishVO> PageQuery(DishPageQueryDTO dishPageQueryDTO);
+    //删除菜品口味表中的数据
+    void deleteByDishId(Long dishId);
 }
