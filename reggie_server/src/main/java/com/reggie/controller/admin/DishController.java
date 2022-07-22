@@ -75,9 +75,9 @@ public class DishController {
      * @return DishVO 菜品的参数
      */
     @GetMapping("/{id}")
-    @ApiOperation("根据id查询菜品")
+    @ApiOperation("根据id查询菜品和关联的口味")
     public R<DishVO> select(@PathVariable Long id) {
-        log.info("根据id查询菜品:{}", id);
+        log.info("根据id查询菜品和关联的口味:{}", id);
         DishVO dishVO = dishService.getByIdWithFlavor(id);
         return R.success(dishVO);
     }

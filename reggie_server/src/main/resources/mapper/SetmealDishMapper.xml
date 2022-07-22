@@ -25,9 +25,9 @@
     <!--套餐id删除套餐菜品关系表中的数据-->
     <delete id="deleteBySetmealId">
         delete from setmeal_dish
-        where dish_id in
-        <foreach collection="ids" item="dish_id" separator="," open="(" close=")">
-            #{dish_id}
+        where setmeal_id in
+        <foreach collection="ids" item="setmeal_id" separator="," open="(" close=")">
+            #{setmeal_id}
         </foreach>
     </delete>
 

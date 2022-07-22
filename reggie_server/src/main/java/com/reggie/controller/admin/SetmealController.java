@@ -100,9 +100,10 @@ public class SetmealController {
      * @return success
      */
     @PostMapping("/status/{status}")
+    @ApiOperation("修改套餐")
     public R<String> startOrStop(@PathVariable Integer status, Long id) {
         log.info("修改套餐:{}", status);
-        setmealService.startOrStop(status,id);
+        setmealService.startOrStop(status, id);
         return R.success("状态修改成功");
     }
 

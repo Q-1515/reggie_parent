@@ -124,7 +124,7 @@
         select dish.*
         from dish
                  left join setmeal_dish sd on dish.id = sd.dish_id
-        where sd.id = #{setmealId}
+        where sd.setmeal_id = #{setmealId}
     </select>
 
 </mapper>

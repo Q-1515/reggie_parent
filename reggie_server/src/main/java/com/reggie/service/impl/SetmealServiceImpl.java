@@ -152,7 +152,7 @@ public class SetmealServiceImpl implements SetmealService {
      */
     public void startOrStop(Integer status, Long id) {
         //起售套餐时，判断套餐内是否有停售菜品，有停售菜品提示"套餐内包含未启售菜品，无法启售"
-        if (StatusConstant.DISABLE == status) {
+        if (StatusConstant.ENABLE == status) {
             //根据套餐id查询菜品
             List<Dish> dishList = dishMapper.getBySetmealId(id);
             if (dishList != null && dishList.size() > 0) {

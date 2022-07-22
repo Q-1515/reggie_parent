@@ -103,7 +103,7 @@ public class DishServiceImpl implements DishService {
         ids.forEach(dishId -> {
             Dish dish = dishMapper.selectById(dishId);
             // 起售的菜品不能删除
-            if (StatusConstant.DISABLE == dish.getStatus()) {
+            if (StatusConstant.ENABLE == dish.getStatus()) {
                 throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
             }
         });
