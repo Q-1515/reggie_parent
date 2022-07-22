@@ -2,6 +2,7 @@ package com.reggie.controller.admin;
 
 import com.reggie.dto.DishDTO;
 import com.reggie.dto.DishPageQueryDTO;
+import com.reggie.entity.Dish;
 import com.reggie.result.PageResult;
 import com.reggie.result.R;
 import com.reggie.service.DishService;
@@ -109,6 +110,25 @@ public class DishController {
         dishService.startOrStop(status, id);
         return R.success("状态修改成功");
     }
+
+
+    /**
+     * 根据分类id || 菜名 查询菜品
+     *
+     * @param categoryId 分类id
+     * @param name       菜名
+     * @return 菜品
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据分类id || 菜名 查询菜品接口")
+    public R<List<Dish>> list(Long categoryId, String name) {
+        log.info("根据菜名查询菜品接口:{}", name);
+        List<Dish> list = dishService.list(categoryId, name);
+        return R.success(list);
+    }
+
+
+
 
 
 }

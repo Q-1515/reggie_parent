@@ -2,6 +2,7 @@ package com.reggie.service;
 
 import com.reggie.dto.DishDTO;
 import com.reggie.dto.DishPageQueryDTO;
+import com.reggie.entity.Dish;
 import com.reggie.result.PageResult;
 import com.reggie.vo.DishVO;
 
@@ -26,4 +27,7 @@ public interface DishService {
 
     //菜品起售、停售
     void startOrStop(Integer status, Long id);
+
+    //根据分类id查询菜品
+    List<Dish> list(Long categoryId,String name);
 }

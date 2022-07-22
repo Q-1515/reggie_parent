@@ -200,4 +200,24 @@ public class DishServiceImpl implements DishService {
             }
         }
     }
+
+    /**
+     * 根据分类id || 菜名 查询菜品
+     *
+     * @param categoryId 分类id
+     * @param name       菜名
+     * @return 菜品集合
+     */
+    public List<Dish> list(Long categoryId, String name) {
+        Dish dish = new Dish();
+        //设置菜品起售状态才能被查
+        dish.setStatus(StatusConstant.ENABLE);
+        //判断查分类id还是查菜品名
+        if (categoryId == null) {
+            dish.setName(name);
+        } else {
+            dish.setCategoryId(categoryId);
+        }
+        return dishMapper.list(dish);
+    }
 }

@@ -8,6 +8,8 @@ import com.reggie.entity.Dish;
 import com.reggie.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface DishMapper {
 
@@ -34,4 +36,6 @@ public interface DishMapper {
     @AutoFill(type = AutoFillConstant.UPDATE)
     void update(Dish dish);
 
+    //根据分类id,状态码，菜品名 查询菜品信息
+    List<Dish> list(Dish dish);
 }
