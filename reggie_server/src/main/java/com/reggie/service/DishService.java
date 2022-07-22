@@ -29,5 +29,5 @@ public interface DishService {
     void startOrStop(Integer status, Long id);
 
     //根据分类id查询菜品
-    List<Dish> list(Long categoryId,String name);
+    List<Dish> list(Long categoryId, String name);
 }
