@@ -86,5 +86,23 @@
         </foreach>
     </delete>
 
+    <!--封装套餐关联数据-->
+    <resultMap id="SetmealVOMap" type="com.reggie.vo.SetmealVO" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="setmealDishes" ofType="setmealDish" autoMapping="true">
+            <id column="sd_id" property="id"/>
+            <result column="sd_name" property="name"/>
+            <result column="sd_price" property="price"/>
+        </collection>
+    </resultMap>
+    <!--id查询套餐查询所有套餐关联数据-->
+    <select id="getByIdWithDish" resultMap="SetmealVOMap">
+        select setmeal.*, sd.id sd_id, sd.setmeal_id, sd.dish_id, sd.name sd_name, sd.price sd_price, sd.copies
+        from setmeal
+                 left join setmeal_dish sd
+                           on setmeal.id = sd.setmeal_id
+        where setmeal.id = #{id}
+    </select>
+
 
 </mapper>

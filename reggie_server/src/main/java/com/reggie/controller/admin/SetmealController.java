@@ -5,6 +5,7 @@ import com.reggie.dto.SetmealPageQueryDTO;
 import com.reggie.result.PageResult;
 import com.reggie.result.R;
 import com.reggie.service.SetmealService;
+import com.reggie.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,34 @@ public class SetmealController {
         log.info("批量删除:{}", ids);
         setmealService.deleteBatch(ids);
         return R.success("删除成功");
+    }
+
+    /**
+     * id查询套餐
+     *
+     * @param id 套餐id
+     * @return setmealVO 回显修改套餐的数据
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("id查询套餐接口")
+    public R<SetmealVO> getById(@PathVariable Long id) {
+        log.info("id查询套餐接口:{}", id);
+        SetmealVO setmealVO = setmealService.getById(id);
+        return R.success(setmealVO);
+    }
+
+    /**
+     * 修改套餐
+     *
+     * @param setmealDTO 修改的套餐信息
+     * @return success
+     */
+    @PutMapping
+    @ApiOperation("修改套餐")
+    public R update(@RequestBody SetmealDTO setmealDTO) {
+        log.info("修改套餐:{}", setmealDTO);
+        setmealService.update(setmealDTO);
+        return R.success();
     }
 
 

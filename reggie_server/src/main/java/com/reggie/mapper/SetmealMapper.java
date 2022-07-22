@@ -35,4 +35,7 @@ public interface SetmealMapper {
 
     //套餐ids删除套餐表中的数据
     void deleteById(List<Long> ids);
+
+    //id查询套餐查询所有套餐关联数据
+    SetmealVO getByIdWithDish(Long id);
 }

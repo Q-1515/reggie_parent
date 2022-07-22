@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,6 +99,42 @@ public class SetmealServiceImpl implements SetmealService {
         setmealDishMapper.deleteBySetmealId(ids);
     }
 
+    /**
+     * id查询套餐
+     *
+     * @param id 套餐id
+     * @return setmealVO 回显修改套餐的数据
+     */
+    public SetmealVO getById(Long id) {
+        return setmealMapper.getByIdWithDish(id);
+    }
 
+    /**
+     * 修改套餐
+     *
+     * @param setmealDTO 修改的套餐信息
+     */
+    @Override
+    public void update(SetmealDTO setmealDTO) {
+        //拷贝套餐信息
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO, setmeal);
+        //更新套餐数据
+        setmealMapper.updatesByIds(setmeal);
 
+        //套餐id
+        Long setmealId = setmealDTO.getId();
+
+        //删除套餐和菜品的关联关系，操作setmeal_dish表，执行delete
+        List<Long> ids = new ArrayList<>();
+        ids.add(setmealId);
+        setmealDishMapper.deleteBySetmealId(ids);
+
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+        setmealDishes.forEach(setmealDish -> {
+            setmealDish.setSetmealId(setmealId);
+        });
+        //3、重新插入套餐和菜品的关联关系，操作setmeal_dish表，执行insert
+        setmealDishMapper.insertBatch(setmealDishes);
+    }
 }
