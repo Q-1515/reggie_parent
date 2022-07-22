@@ -6,9 +6,12 @@ import com.reggie.constant.MessageConstant;
 import com.reggie.constant.StatusConstant;
 import com.reggie.dto.SetmealDTO;
 import com.reggie.dto.SetmealPageQueryDTO;
+import com.reggie.entity.Dish;
 import com.reggie.entity.Setmeal;
 import com.reggie.entity.SetmealDish;
 import com.reggie.exception.DeletionNotAllowedException;
+import com.reggie.exception.SetmealEnableFailedException;
+import com.reggie.mapper.DishMapper;
 import com.reggie.mapper.SetmealDishMapper;
 import com.reggie.mapper.SetmealMapper;
 import com.reggie.result.PageResult;
@@ -34,6 +37,9 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Autowired
     private SetmealDishMapper setmealDishMapper;  //套餐菜品关系 DAO
+
+    @Autowired
+    private DishMapper dishMapper; //菜品DAO
 
     /**
      * 新增套餐
@@ -114,7 +120,7 @@ public class SetmealServiceImpl implements SetmealService {
      *
      * @param setmealDTO 修改的套餐信息
      */
-    @Override
+    @Transactional
     public void update(SetmealDTO setmealDTO) {
         //拷贝套餐信息
         Setmeal setmeal = new Setmeal();
@@ -136,5 +142,37 @@ public class SetmealServiceImpl implements SetmealService {
         });
         //3、重新插入套餐和菜品的关联关系，操作setmeal_dish表，执行insert
         setmealDishMapper.insertBatch(setmealDishes);
+    }
+
+    /**
+     * 套餐 启用禁用
+     *
+     * @param status 套餐状态
+     * @param id     套餐id
+     */
+    public void startOrStop(Integer status, Long id) {
+        //起售套餐时，判断套餐内是否有停售菜品，有停售菜品提示"套餐内包含未启售菜品，无法启售"
+        if (StatusConstant.DISABLE == status) {
+            //根据套餐id查询菜品
+            List<Dish> dishList = dishMapper.getBySetmealId(id);
+            if (dishList != null && dishList.size() > 0) {
+                dishList.forEach(dish -> {
+                            //判断菜品书否是未启动
+                            if (dish.getStatus() == StatusConstant.DISABLE) {
+                                //套餐启动失败，套餐包未起售菜品
+                                throw new SetmealEnableFailedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+                            }
+                        }
+                );
+            }
+        }
+
+        //起售状态的话直接更新为停售
+        Setmeal setmeal = Setmeal.builder()
+                .id(id)
+                .status(status)
+                .build();
+        setmealMapper.updatesByIds(setmeal);
+
     }
 }

@@ -86,10 +86,24 @@ public class SetmealController {
      */
     @PutMapping
     @ApiOperation("修改套餐")
-    public R update(@RequestBody SetmealDTO setmealDTO) {
+    public R<String> update(@RequestBody SetmealDTO setmealDTO) {
         log.info("修改套餐:{}", setmealDTO);
         setmealService.update(setmealDTO);
-        return R.success();
+        return R.success("套餐修改成功");
+    }
+
+    /**
+     * 套餐 启用禁用
+     *
+     * @param status 套餐状态
+     * @param id     套餐id
+     * @return success
+     */
+    @PostMapping("/status/{status}")
+    public R<String> startOrStop(@PathVariable Integer status, Long id) {
+        log.info("修改套餐:{}", status);
+        setmealService.startOrStop(status,id);
+        return R.success("状态修改成功");
     }
 
 

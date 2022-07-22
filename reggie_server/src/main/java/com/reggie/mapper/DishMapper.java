@@ -16,8 +16,8 @@ public interface DishMapper {
     //根据分类id查询对应的菜品数量
     Long cuntByCategoryId(Long id);
 
+    //插入数据到菜品表
     @AutoFill(type = AutoFillConstant.INSERT)
-        //插入数据到菜品表
     void insert(Dish dish);
 
     //菜品信息分页查询
@@ -38,4 +38,7 @@ public interface DishMapper {
 
     //根据分类id,状态码，菜品名 查询菜品信息
     List<Dish> list(Dish dish);
+
+    //根据套餐id查询菜品
+    List<Dish> getBySetmealId(Long setmealId);
 }

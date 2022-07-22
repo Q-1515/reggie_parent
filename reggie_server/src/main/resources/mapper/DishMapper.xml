@@ -119,4 +119,12 @@
         order by create_time desc
     </select>
 
+    <!--根据套餐id查询菜品-->
+    <select id="getBySetmealId" resultType="com.reggie.entity.Dish">
+        select dish.*
+        from dish
+                 left join setmeal_dish sd on dish.id = sd.dish_id
+        where sd.id = #{setmealId}
+    </select>
+
 </mapper>
