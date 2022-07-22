@@ -5,6 +5,7 @@ import com.reggie.dto.DishPageQueryDTO;
 import com.reggie.result.PageResult;
 import com.reggie.result.R;
 import com.reggie.service.DishService;
+import com.reggie.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -65,5 +66,38 @@ public class DishController {
         dishService.delete(ids);
         return R.success("批量删除菜品成功");
     }
+
+    /**
+     * 根据id查询菜品和关联的口味
+     *
+     * @param id 菜品id
+     * @return DishVO 菜品的参数
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询菜品")
+    public R<DishVO> select(@PathVariable Long id){
+        log.info("根据id查询菜品:{}", id);
+        DishVO dishVO = dishService.getByIdWithFlavor(id);
+        return R.success(dishVO);
+    }
+
+    /**
+     * 修改菜品
+     *
+     * @param dishDTO 修改的菜品数据
+     * @return success
+     */
+    @PutMapping
+    @ApiOperation("修改菜品")
+    public R<String> update(@RequestBody DishDTO dishDTO){
+        log.info("修改菜品:{}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
+        return R.success("修改成功");
+    }
+
+
+
+
+
 
 }

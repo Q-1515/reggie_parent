@@ -52,4 +52,53 @@
         from dish
         where id = #{dishId}
     </delete>
+
+    <!--菜品vo对象 注入 关联的口味对象-->
+    <resultMap id="DishVOMap" type="com.reggie.vo.DishVO" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="flavors" resultMap="DishFlavorMap"/>
+    </resultMap>
+    <resultMap id="DishFlavorMap" type="com.reggie.entity.DishFlavor" autoMapping="true">
+        <result property="name" column="dfname"/>
+    </resultMap>
+
+    <!--根据id查询菜品和关联的口味-->
+    <select id="getByIdWithFlavor" resultMap="DishVOMap">
+        select dish.*, df.name as dfname, df.value
+        from dish
+                 left join dish_flavor df on dish.id = df.dish_id
+        where dish.id = #{id}
+    </select>
+
+    <!--更新菜品数据-->
+    <update id="update">
+        update dish
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

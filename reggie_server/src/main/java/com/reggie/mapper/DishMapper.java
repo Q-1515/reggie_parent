@@ -15,7 +15,7 @@ public interface DishMapper {
     Long cuntByCategoryId(Long id);
 
     @AutoFill(type = AutoFillConstant.INSERT)
-    //插入数据到菜品表
+        //插入数据到菜品表
     void insert(Dish dish);
 
     //菜品信息分页查询
@@ -27,6 +27,10 @@ public interface DishMapper {
     //根据id删除菜品
     void deleteById(Long dishId);
 
+    //根据id查询菜品和关联的口味
+    DishVO getByIdWithFlavor(Long id);
 
-
+    //更新菜品数据
+    @AutoFill(type = AutoFillConstant.UPDATE)
+    void update(Dish dish);
 }

@@ -13,6 +13,10 @@
 
     <!--删除菜品口味表中的数据-->
     <delete id="deleteByDishId">
-        delete from dish_flavor where dish_id =#{dishId}
+        delete
+        from dish_flavor
+        where dish_id = #{dishId}
     </delete>
+
+
 </mapper>
