@@ -20,7 +20,15 @@
             (#{setmealDishe.setmealId}, #{setmealDishe.dishId}, #{setmealDishe.name}, #{setmealDishe.price},
             #{setmealDishe.copies})
         </foreach>
-
     </insert>
+
+    <!--套餐id删除套餐菜品关系表中的数据-->
+    <delete id="deleteBySetmealId">
+        delete from setmeal_dish
+        where dish_id in
+        <foreach collection="ids" item="dish_id" separator="," open="(" close=")">
+            #{dish_id}
+        </foreach>
+    </delete>
 
 </mapper>

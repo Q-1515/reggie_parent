@@ -29,4 +29,10 @@ public interface SetmealMapper {
 
     //套餐分页查询
     Page<SetmealVO> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
+
+    //通过套餐id查找套餐数据
+    Setmeal getById(Long id);
+
+    //套餐ids删除套餐表中的数据
+    void deleteById(List<Long> ids);
 }

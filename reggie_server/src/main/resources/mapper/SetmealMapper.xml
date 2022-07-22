@@ -66,8 +66,25 @@
             </if>
         </where>
         order by setmeal.create_time desc
-
     </select>
+
+    <!--通过套餐id查找套餐数据-->
+    <select id="getById" resultType="com.reggie.entity.Setmeal">
+        select *
+        from setmeal
+        where id = #{id};
+    </select>
+
+
+    <!--套餐ids删除套餐表中的数据-->
+    <delete id="deleteById">
+        delete
+        from setmeal
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 
 </mapper>
