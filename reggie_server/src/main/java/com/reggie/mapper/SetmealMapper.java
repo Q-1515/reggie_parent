@@ -1,9 +1,12 @@
 package com.reggie.mapper;
 
+import com.github.pagehelper.Page;
 import com.reggie.annotation.AutoFill;
 import com.reggie.constant.AutoFillConstant;
+import com.reggie.dto.SetmealPageQueryDTO;
 import com.reggie.entity.Setmeal;
 import com.reggie.entity.SetmealDish;
+import com.reggie.vo.SetmealVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,4 +26,7 @@ public interface SetmealMapper {
     //套餐表插入数据
     @AutoFill(type = AutoFillConstant.INSERT)
     void insert(Setmeal setmeal);
+
+    //套餐分页查询
+    Page<SetmealVO> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
 }

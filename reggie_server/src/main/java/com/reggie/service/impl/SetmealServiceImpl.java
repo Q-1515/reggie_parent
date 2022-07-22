@@ -1,12 +1,16 @@
 package com.reggie.service.impl;
 
-import com.reggie.constant.StatusConstant;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.reggie.dto.SetmealDTO;
+import com.reggie.dto.SetmealPageQueryDTO;
 import com.reggie.entity.Setmeal;
 import com.reggie.entity.SetmealDish;
 import com.reggie.mapper.SetmealDishMapper;
 import com.reggie.mapper.SetmealMapper;
+import com.reggie.result.PageResult;
 import com.reggie.service.SetmealService;
+import com.reggie.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +57,18 @@ public class SetmealServiceImpl implements SetmealService {
 
         //保存套餐和菜品的关联关系
         setmealDishMapper.insertBatch(setmealDishes);
+    }
 
-
+    /**
+     * 套餐分页查询
+     *
+     * @param setmealPageQueryDTO 套餐名称，分类id，售卖状态，页数，每页大小
+     * @return PageResult 套餐数据
+     */
+    public PageResult pageQuery(SetmealPageQueryDTO setmealPageQueryDTO) {
+        //分页插件自动实现分页
+        PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
+        Page<SetmealVO> page = setmealMapper.pageQuery(setmealPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }

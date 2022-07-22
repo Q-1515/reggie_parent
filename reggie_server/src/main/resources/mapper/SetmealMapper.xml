@@ -49,4 +49,25 @@
     </insert>
 
 
+    <!--套餐分页查询-->
+    <select id="pageQuery" resultType="com.reggie.vo.SetmealVO">
+        select setmeal.*,c.name as categoryName
+        from setmeal
+        left join category c on setmeal.category_id = c.id
+        <where>
+            <if test="name != null and name !=''">
+                setmeal.name like "%"#{name}"%"
+            </if>
+            <if test="categoryId != null ">
+                and setmeal.category_id =#{categoryId}
+            </if>
+            <if test="status != null ">
+                and setmeal.status =#{status}
+            </if>
+        </where>
+        order by setmeal.create_time desc
+
+    </select>
+
+
 </mapper>
