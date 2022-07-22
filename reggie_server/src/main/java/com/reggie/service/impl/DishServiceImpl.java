@@ -8,6 +8,7 @@ import com.reggie.dto.DishDTO;
 import com.reggie.dto.DishPageQueryDTO;
 import com.reggie.entity.Dish;
 import com.reggie.entity.DishFlavor;
+import com.reggie.entity.Setmeal;
 import com.reggie.entity.SetmealDish;
 import com.reggie.exception.DeletionNotAllowedException;
 import com.reggie.mapper.DishFlavorMapper;
@@ -23,7 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 /**
  * 菜品业务实现
@@ -38,6 +43,9 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private SetmealDishMapper setmealDishMapper;  //套餐菜品绑定DAO
+
+    @Autowired
+    private SetmealMapper setmealMapper;  //套餐DAO
 
     /**
      * 添加菜品
@@ -131,6 +139,7 @@ public class DishServiceImpl implements DishService {
      *
      * @param dishDTO 修改的菜品数据
      */
+    @Transactional
     public void updateWithFlavor(DishDTO dishDTO) {
         //拷贝菜品数据
         Dish dish = new Dish();
@@ -148,13 +157,47 @@ public class DishServiceImpl implements DishService {
         List<DishFlavor> flavors = dishDTO.getFlavors();
         if (flavors != null && flavors.size() > 0) {
             //为口味绑定菜品id
-            flavors.forEach( flavor->{
+            flavors.forEach(flavor -> {
                 flavor.setDishId(dishId);
             });
+            //插入新的口味数据
+            dishFlavorMapper.insert(flavors);
         }
 
-        //插入新的口味数据
-        dishFlavorMapper.insert(flavors);
+    }
 
+    /**
+     * 菜品起售、停售
+     *
+     * @param status 菜品状态
+     * @param id     菜品id
+     */
+    @Transactional
+    public void startOrStop(Integer status, Long id) {
+        Dish dish = Dish.builder()
+                .id(id)
+                .status(status)
+                .build();
+        //更新菜品状态
+        dishMapper.update(dish);
+
+        //如果菜品状态为停售相关的套餐也得停售
+        if (StatusConstant.DISABLE == status) {
+            List<Long> ids = new ArrayList<>();
+            ids.add(id);
+
+            //通过id查询套餐如果有多个都将停售
+            List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
+            if (setmealIds != null && setmealIds.size() > 0) {
+
+                Setmeal setmeal = new Setmeal();
+                setmeal.setStatus(StatusConstant.DISABLE);
+                //循环停售套餐
+                for (Long setmealId : setmealIds) {
+                    setmeal.setId(setmealId);
+                    setmealMapper.updatesByIds(setmeal);
+                }
+            }
+        }
     }
 }

@@ -75,7 +75,7 @@ public class DishController {
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询菜品")
-    public R<DishVO> select(@PathVariable Long id){
+    public R<DishVO> select(@PathVariable Long id) {
         log.info("根据id查询菜品:{}", id);
         DishVO dishVO = dishService.getByIdWithFlavor(id);
         return R.success(dishVO);
@@ -89,15 +89,26 @@ public class DishController {
      */
     @PutMapping
     @ApiOperation("修改菜品")
-    public R<String> update(@RequestBody DishDTO dishDTO){
+    public R<String> update(@RequestBody DishDTO dishDTO) {
         log.info("修改菜品:{}", dishDTO);
         dishService.updateWithFlavor(dishDTO);
         return R.success("修改成功");
     }
 
-
-
-
+    /**
+     * 菜品起售、停售
+     *
+     * @param status 菜品状态
+     * @param id     菜品id
+     * @return success
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品起售、停售")
+    public R<String> startOrStop(@PathVariable Integer status, Long id) {
+        log.info("菜品起售、停售---status:{},id:{}", status, id);
+        dishService.startOrStop(status, id);
+        return R.success("状态修改成功");
+    }
 
 
 }

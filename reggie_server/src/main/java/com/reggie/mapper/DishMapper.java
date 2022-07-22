@@ -33,4 +33,5 @@ public interface DishMapper {
     //更新菜品数据
     @AutoFill(type = AutoFillConstant.UPDATE)
     void update(Dish dish);
+
 }
