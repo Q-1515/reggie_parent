@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.reggie.mapper.SetmealMapper">
-
     <!--根据分类id查询对应的套餐数量-->
     <select id="cuntByCategoryId" resultType="java.lang.Long">
         select count(*)
@@ -40,5 +39,14 @@
         </set>
         where id = #{id}
     </update>
+
+    <!--套餐表插入数据-->
+    <insert id="insert" parameterType="Setmeal" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal(category_id, name, price, status, description, image, create_time, update_time,
+                            create_user, update_user)
+        values (#{categoryId}, #{name}, #{price}, #{status}, #{description}, #{image}, #{createTime}, #{updateTime},
+                #{createUser}, #{updateUser})
+    </insert>
+
 
 </mapper>

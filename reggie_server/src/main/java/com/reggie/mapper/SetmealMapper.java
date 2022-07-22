@@ -19,4 +19,8 @@ public interface SetmealMapper {
     //根据套餐id更新套餐数据
     @AutoFill(type = AutoFillConstant.UPDATE)
     void updatesByIds(Setmeal setmeal);
+
+    //套餐表插入数据
+    @AutoFill(type = AutoFillConstant.INSERT)
+    void insert(Setmeal setmeal);
 }
