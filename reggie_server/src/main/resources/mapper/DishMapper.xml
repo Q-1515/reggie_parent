@@ -130,7 +130,7 @@
     <!--动态条件查询菜品和口味-->
     <select id="listWithFlavor" parameterType="Dish" resultMap="DishVOMap">
         select
-        a.*,b.name fname,b.value
+        a.*,b.name dfname,b.value
         from
         dish a
         left join

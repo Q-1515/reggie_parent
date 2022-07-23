@@ -224,7 +224,8 @@ public class DishServiceImpl implements DishService {
 
     /**
      * 条件查询菜品和口味
-     * @param dish  菜品
+     *
+     * @param dish 菜品
      * @return 菜品和口味
      */
     public List<DishVO> listWithFlavor(Dish dish) {
