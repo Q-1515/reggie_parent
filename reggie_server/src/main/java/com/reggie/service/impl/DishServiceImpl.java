@@ -220,4 +220,17 @@ public class DishServiceImpl implements DishService {
         }
         return dishMapper.list(dish);
     }
+
+
+    /**
+     * 条件查询菜品和口味
+     * @param dish  菜品
+     * @return 菜品和口味
+     */
+    public List<DishVO> listWithFlavor(Dish dish) {
+        List<DishVO> list = dishMapper.listWithFlavor(dish);
+        return list;
+    }
+
+
 }

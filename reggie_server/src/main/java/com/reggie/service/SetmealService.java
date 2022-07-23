@@ -2,7 +2,9 @@ package com.reggie.service;
 
 import com.reggie.dto.SetmealDTO;
 import com.reggie.dto.SetmealPageQueryDTO;
+import com.reggie.entity.Setmeal;
 import com.reggie.result.PageResult;
+import com.reggie.vo.DishItemVO;
 import com.reggie.vo.SetmealVO;
 
 import java.util.List;
@@ -29,4 +31,11 @@ public interface SetmealService {
 
     //套餐 启用禁用
     void startOrStop(Integer status, Long id);
+
+
+    //条件查询
+    List<Setmeal> list(Setmeal setmeal);
+
+    //根据id查询菜品选项
+    List<DishItemVO> getDishItemById(Long id);
 }

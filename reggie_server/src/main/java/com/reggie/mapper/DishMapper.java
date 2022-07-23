@@ -5,6 +5,7 @@ import com.reggie.annotation.AutoFill;
 import com.reggie.constant.AutoFillConstant;
 import com.reggie.dto.DishPageQueryDTO;
 import com.reggie.entity.Dish;
+import com.reggie.vo.DishItemVO;
 import com.reggie.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -41,4 +42,13 @@ public interface DishMapper {
 
     //根据套餐id查询菜品
     List<Dish> getBySetmealId(Long setmealId);
+
+
+    //动态条件查询菜品和口味
+    List<DishVO> listWithFlavor(Dish dish);
+
+    //根据套餐id查询菜品选项
+    List<DishItemVO> getDishItemBySetmealId(Long setmealId);
+
+
 }

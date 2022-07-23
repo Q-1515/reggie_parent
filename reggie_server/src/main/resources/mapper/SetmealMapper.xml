@@ -104,5 +104,21 @@
         where setmeal.id = #{id}
     </select>
 
+    <!--动态条件查询套餐-->
+    <select id="list" parameterType="Setmeal" resultType="Setmeal">
+        select * from setmeal
+        <where>
+            <if test="name != null">
+                and name like '%${name}%'
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

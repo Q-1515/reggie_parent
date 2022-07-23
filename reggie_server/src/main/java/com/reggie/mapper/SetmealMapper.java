@@ -38,4 +38,7 @@ public interface SetmealMapper {
 
     //id查询套餐查询所有套餐关联数据
     SetmealVO getByIdWithDish(Long id);
+
+    //动态条件查询套餐
+    List<Setmeal> list(Setmeal setmeal);
 }

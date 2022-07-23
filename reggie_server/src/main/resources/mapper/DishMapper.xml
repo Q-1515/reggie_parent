@@ -127,4 +127,41 @@
         where sd.setmeal_id = #{setmealId}
     </select>
 
+    <!--动态条件查询菜品和口味-->
+    <select id="listWithFlavor" parameterType="Dish" resultMap="DishVOMap">
+        select
+        a.*,b.name fname,b.value
+        from
+        dish a
+        left join
+        dish_flavor b
+        on
+        a.id = b.dish_id
+        <where>
+            <if test="name != null">
+                and a.name like '%${name}%'
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--根据套餐id查询菜品选项-->
+    <select id="getDishItemBySetmealId" resultType="com.reggie.vo.DishItemVO">
+        select sd.name,
+               sd.copies,
+               d.image,
+               d.description
+        from setmeal_dish sd
+                 left join
+             dish d
+             on
+                 sd.dish_id = d.id
+        where sd.setmeal_id = #{setmealId}
+    </select>
+
 </mapper>
