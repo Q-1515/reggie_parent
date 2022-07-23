@@ -7,6 +7,9 @@ import com.reggie.vo.SetmealVO;
 
 import java.util.List;
 
+/**
+ * 套餐操作
+ */
 public interface SetmealService {
 
     //新增套餐

@@ -8,6 +8,9 @@ import com.reggie.result.PageResult;
 
 import java.util.List;
 
+/**
+ * 分类操作
+ */
 public interface CategoryService {
     //新增分类
     void save(CategoryDTO categoryDTO);

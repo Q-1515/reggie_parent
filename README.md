@@ -46,5 +46,7 @@ https://www.aliyundrive.com/s/AnRReoe66dQ
 ![img.png](img/Swagger.png)
 
 ##### **项目效果展示**
-
+###### 管理员展示
 ![img.png](img/reggie.png)
+###### 小程序展示
+![img.png](img/小程序.png)

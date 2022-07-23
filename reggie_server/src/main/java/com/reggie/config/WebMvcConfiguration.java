@@ -35,11 +35,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     }
 
     /**
-     * @return 配置swagger接口文档对象
+     * @return 配置swagger管理端接口文档对象
      */
     @Bean
-    public Docket docket() {
-        log.info("准备生成接口文档");
+    public Docket docket1() {
+        log.info("准备生成接口文档...");
 
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("瑞吉外卖项目接口文档")
@@ -47,16 +47,40 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .description("瑞吉外卖项目接口文档")
                 .build();
 
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("管理端接口")
                 .apiInfo(apiInfo)
                 .select()
                 //指定生成接口需要扫描的包
-                .apis(RequestHandlerSelectors.basePackage("com.reggie.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.reggie.controller.admin"))
                 .paths(PathSelectors.any())
                 .build();
-
-        return docket;
     }
+
+
+    /**
+     * @return 配置swagger用户端接口文档对象
+     */
+    @Bean
+    public Docket docket2() {
+        log.info("准备生成接口文档...");
+
+        ApiInfo apiInfo = new ApiInfoBuilder()
+                .title("瑞吉外卖项目接口文档")
+                .version("2.0")
+                .description("瑞吉外卖项目接口文档")
+                .build();
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("用户端接口")
+                .apiInfo(apiInfo)
+                .select()
+                //指定生成接口需要扫描的包
+                .apis(RequestHandlerSelectors.basePackage("com.reggie.controller.user"))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {

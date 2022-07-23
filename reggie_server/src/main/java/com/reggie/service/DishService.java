@@ -8,6 +8,9 @@ import com.reggie.vo.DishVO;
 
 import java.util.List;
 
+/**
+ * 菜品操作
+ */
 public interface DishService {
 
     //添加菜品

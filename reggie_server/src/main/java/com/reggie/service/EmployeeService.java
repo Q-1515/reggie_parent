@@ -7,6 +7,9 @@ import com.reggie.dto.PasswordEditDTO;
 import com.reggie.entity.Employee;
 import com.reggie.result.PageResult;
 
+/**
+ * 员工操作
+ */
 public interface EmployeeService {
     //员工登录
     Employee login(EmployeeLoginDTO employeeLoginDTO);

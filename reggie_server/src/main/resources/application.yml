@@ -11,6 +11,12 @@ spring:
       username: ${reggie.datasource.username}
       password: ${reggie.datasource.password}
 
+  redis:
+    host: ${reggie.redis.host}
+    port: ${reggie.redis.port}
+    database: ${reggie.redis.database}
+    password: ${reggie.redis.password}
+
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
