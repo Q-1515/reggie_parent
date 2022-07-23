@@ -27,6 +27,7 @@ Spring Task
 4. Node.js v16.15.1
 5. Redis 7.0
 6. MySQL 5.6.22
+7. 微信开发者工具
 
 ## 前后端分离开发
 

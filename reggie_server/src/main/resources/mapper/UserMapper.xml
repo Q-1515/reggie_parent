@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.reggie.mapper.UserMapper">
+
+    <sql id="allColumnsWithoutId">
+        openid,name,phone,sex,id_number,avatar,create_time
+    </sql>
+
+    <sql id="allColumns">
+        id,
+        <include refid="allColumnsWithoutId"/>
+    </sql>
+
+    <!--插入-->
+    <!--
+    useGeneratedKeys设置为true：在执行插入记录之后可以获取到数据库自动生成的主键值
+    keyProperty：指定Java对象的属性名
+    -->
+    <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(
+        <include refid="allColumnsWithoutId"/>
+        )
+        values(#{openid},#{name},#{phone},#{sex},#{idNumber},#{avatar},#{createTime})
+    </insert>
+
+    <!--根据主键删除-->
+    <delete id="deleteById" parameterType="long">
+        delete from user where id = #{id}
+    </delete>
+
+    <!--根据id修改-->
+    <update id="update" parameterType="User">
+        update user
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="idNumber != null">
+                id_Number = #{idNumber},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--根据主键查询-->
+    <select id="getById" parameterType="long" resultType="User">
+        select
+        <include refid="allColumns"/>
+        from user where id = #{id}
+    </select>
+
+    <select id="list" parameterType="User" resultType="User">
+        select * from user
+        <where>
+            <if test="phone != null">
+                and phone = #{phone}
+            </if>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+            <if test="idNumber != null">
+                and id_number = #{idNumber}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+        </where>
+    </select>
+
+    <!--根据openid查询用户-->
+    <select id="getByOpenid" resultType="com.reggie.entity.User">
+        select * from user where openid = #{openid}
+    </select>
+
+</mapper>
