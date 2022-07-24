@@ -11,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/admin/dish")
@@ -23,6 +25,19 @@ public class DishController {
 
     @Autowired
     private DishService dishService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /**
+     * 清理缓存
+     *
+     * @param pattern redis key值
+     */
+    private void cleanCache(String pattern) {
+        Set keys = redisTemplate.keys(pattern);
+        redisTemplate.delete(keys);
+    }
 
 
     /**
@@ -36,6 +51,8 @@ public class DishController {
     public R<String> save(@RequestBody DishDTO dishDTO) {
         log.info("添加菜品:{}", dishDTO);
         dishService.save(dishDTO);
+
+        cleanCache("dish_"+dishDTO.getCategoryId());
         return R.success("菜品添加成功");
     }
 
@@ -65,6 +82,8 @@ public class DishController {
     public R<String> delete(@RequestParam List<Long> ids) {
         log.info("批量删除菜品:{}", ids);
         dishService.delete(ids);
+
+        cleanCache("dish_*");
         return R.success("批量删除菜品成功");
     }
 
@@ -79,6 +98,7 @@ public class DishController {
     public R<DishVO> select(@PathVariable Long id) {
         log.info("根据id查询菜品和关联的口味:{}", id);
         DishVO dishVO = dishService.getByIdWithFlavor(id);
+
         return R.success(dishVO);
     }
 
@@ -93,6 +113,8 @@ public class DishController {
     public R<String> update(@RequestBody DishDTO dishDTO) {
         log.info("修改菜品:{}", dishDTO);
         dishService.updateWithFlavor(dishDTO);
+
+        cleanCache("dish_*");
         return R.success("修改成功");
     }
 
@@ -108,6 +130,7 @@ public class DishController {
     public R<String> startOrStop(@PathVariable Integer status, Long id) {
         log.info("菜品起售、停售---status:{},id:{}", status, id);
         dishService.startOrStop(status, id);
+        cleanCache("dish_*");
         return R.success("状态修改成功");
     }
 

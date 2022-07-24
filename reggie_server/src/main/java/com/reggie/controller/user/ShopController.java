@@ -1,5 +1,6 @@
 package com.reggie.controller.user;
 
+import com.reggie.constant.StatusConstant;
 import com.reggie.result.R;
 import com.reggie.service.ShopService;
 import io.swagger.annotations.Api;
@@ -33,7 +34,7 @@ public class ShopController {
             shopStatus = shopService.getShopStatus();
         } catch (Exception e) {
             e.printStackTrace();
-            shopStatus = 1;
+            shopStatus = StatusConstant.ENABLE;
         }
         log.info("当前营业状态为{}", shopStatus);
         return R.success(shopStatus);

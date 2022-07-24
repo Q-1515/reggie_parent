@@ -180,8 +180,8 @@ public class SetmealServiceImpl implements SetmealService {
     /**
      * 条件查询
      *
-     * @param setmeal
-     * @return
+     * @param setmeal 菜动态条件查询套餐
+     * @return 所有套餐
      */
     public List<Setmeal> list(Setmeal setmeal) {
         List<Setmeal> list = setmealMapper.list(setmeal);

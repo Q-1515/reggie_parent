@@ -10,6 +10,7 @@ import com.reggie.entity.Dish;
 import com.reggie.entity.DishFlavor;
 import com.reggie.entity.Setmeal;
 import com.reggie.entity.SetmealDish;
+import com.reggie.exception.BaseException;
 import com.reggie.exception.DeletionNotAllowedException;
 import com.reggie.mapper.DishFlavorMapper;
 import com.reggie.mapper.DishMapper;
@@ -162,6 +163,8 @@ public class DishServiceImpl implements DishService {
             });
             //插入新的口味数据
             dishFlavorMapper.insert(flavors);
+        }else {
+            throw new BaseException("口味不能为空");
         }
 
     }

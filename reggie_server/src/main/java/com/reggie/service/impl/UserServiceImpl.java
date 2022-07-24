@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
         JSONObject jsonObject = JSON.parseObject(res);
         String openid = jsonObject.getString("openid");
         log.info("查询到微信用户的openid:{}", openid);
+
+        if (openid == null){
+            throw new LoginFailedException(MessageConstant.LOGIN_FAILED);
+        }
+
         return openid;
     }
 
