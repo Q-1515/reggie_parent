@@ -34,7 +34,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void add(ShoppingCartDTO shoppingCartDTO) {
         //拷贝属性值
         ShoppingCart shoppingCart = new ShoppingCart();
-        BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
 
         //设置当前用户的id
         shoppingCart.setUserId(BaseContext.getCurrentId());
@@ -85,5 +85,38 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .userId(BaseContext.getCurrentId())
                 .build();
         return shoppingCartMapper.list(shoppingCart);
+    }
+
+    /**
+     * 清空购物车
+     */
+    public void clean() {
+        //根据用户id删除购物车
+        shoppingCartMapper.deleteByUserId(BaseContext.getCurrentId());
+    }
+
+    /**
+     * @param shoppingCartDTO 菜名id,套餐id，口味
+     */
+    public void sub(ShoppingCartDTO shoppingCartDTO) {
+        //拷贝购物车数据
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
+        shoppingCart.setUserId(BaseContext.getCurrentId());
+
+        //查询需要删除的数据
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
+        if (list != null && list.size() > 0) {
+            //获取当前套餐/菜品的数据
+            shoppingCart = list.get(0);
+            //如果是最后一份就删除整个
+            if (shoppingCart.getNumber() == 1) {
+                shoppingCartMapper.deleteById(shoppingCart.getId());
+            } else {
+                //当前商品在购物车中的份数不为1，修改份数即可
+                shoppingCart.setNumber(shoppingCart.getNumber() - 1);
+                shoppingCartMapper.updateNumberById(shoppingCart);
+            }
+        }
     }
 }
