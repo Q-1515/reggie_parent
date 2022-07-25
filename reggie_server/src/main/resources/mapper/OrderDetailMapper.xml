@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.reggie.mapper.OrderDetailMapper">
+
+    <insert id="insertBatch" parameterType="list">
+        insert into order_detail
+        (name, order_id, dish_id, setmeal_id, dish_flavor, number, amount, image)
+        values
+        <foreach collection="orderDetails" item="od" separator=",">
+            (#{od.name},#{od.orderId},#{od.dishId},#{od.setmealId},#{od.dishFlavor},#{od.number},#{od.amount},#{od.image})
+        </foreach>
+    </insert>
+
+    <select id="getDetailByOrderId" parameterType="long" resultType="com.reggie.entity.OrderDetail">
+        select * from order_detail where order_id = #{orderId}
+    </select>
+
+</mapper>

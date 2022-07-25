@@ -31,4 +31,18 @@
         </foreach>
     </delete>
 
+    <!--根据菜品id更新套餐的餐菜品名称和价格-->
+    <update id="updateSetmealDishByID">
+        update setmeal_dish
+        <set>
+            <if test="name != null and name !=''">
+                name = #{name},
+            </if>
+            <if test="price != null">
+                price=#{price}
+            </if>
+        </set>
+        where dish_id = #{id};
+    </update>
+
 </mapper>

@@ -59,12 +59,13 @@
         <collection property="flavors" resultMap="DishFlavorMap"/>
     </resultMap>
     <resultMap id="DishFlavorMap" type="com.reggie.entity.DishFlavor" autoMapping="true">
+        <result property="id" column="dfid"/>
         <result property="name" column="dfname"/>
     </resultMap>
 
     <!--根据id查询菜品和关联的口味-->
     <select id="getByIdWithFlavor" resultMap="DishVOMap">
-        select dish.*, df.name as dfname, df.value
+        select dish.*, df.id as dfid, df.name as dfname, df.value
         from dish
                  left join dish_flavor df on dish.id = df.dish_id
         where dish.id = #{id}
@@ -130,7 +131,7 @@
     <!--动态条件查询菜品和口味-->
     <select id="listWithFlavor" parameterType="Dish" resultMap="DishVOMap">
         select
-        a.*,b.name dfname,b.value
+        a.*,b.id as dfid,b.name as dfname,b.value
         from
         dish a
         left join
@@ -139,7 +140,7 @@
         a.id = b.dish_id
         <where>
             <if test="name != null">
-                and a.name like '%${name}%'
+                and a.name like "%"#{name}"%"
             </if>
             <if test="categoryId != null">
                 and category_id = #{categoryId}

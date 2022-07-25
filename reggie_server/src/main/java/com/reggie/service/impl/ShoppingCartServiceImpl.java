@@ -96,6 +96,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     /**
+     * 删除购物车某个商品
+     *
      * @param shoppingCartDTO 菜名id,套餐id，口味
      */
     public void sub(ShoppingCartDTO shoppingCartDTO) {

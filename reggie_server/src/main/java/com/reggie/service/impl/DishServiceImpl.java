@@ -10,6 +10,7 @@ import com.reggie.entity.Dish;
 import com.reggie.entity.DishFlavor;
 import com.reggie.entity.Setmeal;
 import com.reggie.entity.SetmealDish;
+import com.reggie.exception.AccountNotFoundException;
 import com.reggie.exception.BaseException;
 import com.reggie.exception.DeletionNotAllowedException;
 import com.reggie.mapper.DishFlavorMapper;
@@ -72,6 +73,9 @@ public class DishServiceImpl implements DishService {
 
         //循环添加id
         flavors.forEach(item -> {
+            if (item.getValue().equals("[]")){
+                throw new BaseException("傻逼,口味不能为空");
+            }
             //设置口味关联的菜品id
             item.setDishId(dishId);
         });
@@ -149,6 +153,11 @@ public class DishServiceImpl implements DishService {
         //更新菜品数据
         dishMapper.update(dish);
 
+        //根据菜品id更新套餐的餐菜品名称和价格
+        setmealDishMapper.updateSetmealDishByID(dish);
+
+
+
         //获取菜品id
         Long dishId = dishDTO.getId();
         //根据菜品id删除口味
@@ -159,12 +168,15 @@ public class DishServiceImpl implements DishService {
         if (flavors != null && flavors.size() > 0) {
             //为口味绑定菜品id
             flavors.forEach(flavor -> {
+                if (flavor.getValue().equals("[]")){
+                    throw new BaseException("傻逼,口味不能为空");
+                }
                 flavor.setDishId(dishId);
             });
             //插入新的口味数据
             dishFlavorMapper.insert(flavors);
         }else {
-            throw new BaseException("口味不能为空");
+            return;
         }
 
     }
