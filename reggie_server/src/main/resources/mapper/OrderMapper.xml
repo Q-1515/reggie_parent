@@ -13,7 +13,10 @@
     </insert>
 
     <select id="getByNumber" resultType="Orders">
-        select * from orders where number = #{orderNumber} and user_id= #{userId}
+        select *
+        from orders
+        where number = #{orderNumber}
+          and user_id = #{userId}
     </select>
 
     <update id="updateOrdersById" parameterType="com.reggie.entity.Orders">
@@ -76,7 +79,16 @@
     </select>
 
     <select id="getById" resultType="Orders">
-        select * from orders where id=#{id}
+        select *
+        from orders
+        where id = #{id}
+    </select>
+
+    <!--根据状态和下单时间查询订单-->
+    <select id="getByStatusAndOrderTimeLT" resultType="com.reggie.entity.Orders">
+        select *
+        from orders
+        where status = #{status} and order_Time &lt; #{orderTime}
     </select>
 
 </mapper>
