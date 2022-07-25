@@ -15,4 +15,9 @@
         select * from order_detail where order_id = #{orderId}
     </select>
 
+    <!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+    <select id="getByOrderId" parameterType="long" resultType="com.reggie.vo.OrderDetailVO">
+        select name,number,dish_flavor from order_detail where order_id = #{orderId}
+    </select>
+
 </mapper>

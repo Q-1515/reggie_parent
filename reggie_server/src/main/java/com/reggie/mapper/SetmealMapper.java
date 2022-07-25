@@ -41,4 +41,7 @@ public interface SetmealMapper {
 
     //动态条件查询套餐
     List<Setmeal> list(Setmeal setmeal);
+
+    //根据条件统计套餐数量
+    Integer countByMap(Map map);
 }

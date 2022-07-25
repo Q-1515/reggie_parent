@@ -88,7 +88,48 @@
     <select id="getByStatusAndOrderTimeLT" resultType="com.reggie.entity.Orders">
         select *
         from orders
-        where status = #{status} and order_Time &lt; #{orderTime}
+        where status = #{status}
+          and order_Time &lt; #{orderTime}
     </select>
+
+    <!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+    <select id="countStatus" resultType="java.lang.Integer">
+        select count(id)
+        from orders
+        where status = #{status}
+    </select>
+
+    <!--获取今天总订单数-->
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="beginTime != null">
+                and order_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and order_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <!--获取今天总营业额-->
+    <select id="sumByMap" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="beginTime != null">
+                and order_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and order_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

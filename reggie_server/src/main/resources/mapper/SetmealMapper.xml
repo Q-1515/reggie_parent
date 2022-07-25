@@ -99,8 +99,7 @@
     <select id="getByIdWithDish" resultMap="SetmealVOMap">
         select setmeal.*, sd.id sd_id, sd.setmeal_id, sd.dish_id, sd.name sd_name, sd.price sd_price, sd.copies
         from setmeal
-                 left join setmeal_dish sd
-                           on setmeal.id = sd.setmeal_id
+                 left join setmeal_dish sd on setmeal.id = sd.setmeal_id
         where setmeal.id = #{id}
     </select>
 
@@ -116,6 +115,20 @@
             </if>
             <if test="status != null">
                 and status = #{status}
+            </if>
+        </where>
+    </select>
+
+
+    <!--根据条件统计套餐数量-->
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from setmeal
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
             </if>
         </where>
     </select>

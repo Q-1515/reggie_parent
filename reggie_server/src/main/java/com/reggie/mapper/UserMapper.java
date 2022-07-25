@@ -4,6 +4,7 @@ import com.reggie.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -50,4 +51,7 @@ public interface UserMapper {
      * @return
      */
     public User getByOpenid(String openid);
+
+    //新增用户数
+    Integer countByMap(Map<String, Object> map);
 }
