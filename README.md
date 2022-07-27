@@ -40,12 +40,24 @@ Spring Task
 
 ### 前端工程
 
-「project-rjwm-admin-vue-ts.exe」
+------
+
+员工后台「project-rjwm-admin-vue-ts.exe」
 https://www.aliyundrive.com/s/AnRReoe66dQ
 双击解压即可  
 根目录cmd运行 npm run serve
 
 访问前端工程，地址：http://localhost:8081
+
+------
+
+小程序源码 「mp-weixin.exe」
+
+https://www.aliyundrive.com/s/ivQsVr2ZhoN 
+
+双击解压
+
+导入到微信开发者工具
 
 ### 后端工程
 
