@@ -89,13 +89,17 @@
     <select id="countByMap" resultType="java.lang.Integer">
         select count(id) from user
         <where>
+            <!--            <if test="beginTime != null and endTime != null">-->
+            <!--                # DATE_FORMAT(create_time,"%yyyy-%MM-%dd %HH:%mm:%ss") BETWEEN #{beginTime} AND #{endTime}-->
+            <!--                create_time BETWEEN #{beginTime} AND #{endTime}-->
+            <!--            </if>-->
             <if test="beginTime != null">
                 and create_time &gt;= #{beginTime}
             </if>
             <if test="endTime != null">
                 and create_time &lt;= #{endTime}
             </if>
-        </where>;
+        </where>
     </select>
 
 </mapper>

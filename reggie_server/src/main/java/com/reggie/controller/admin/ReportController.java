@@ -1,25 +1,28 @@
 package com.reggie.controller.admin;
 
-import com.reggie.constant.StatusConstant;
 import com.reggie.dto.GoodsSalesDTO;
 import com.reggie.entity.Orders;
 import com.reggie.result.R;
 import com.reggie.service.ReportService;
-import com.reggie.service.UserService;
-import com.reggie.vo.OrderReportVO;
-import com.reggie.vo.SalesTop10ReportVO;
-import com.reggie.vo.TurnoverReportVO;
-import com.reggie.vo.UserReportVO;
+import com.reggie.service.WorkSpaceService;
+import com.reggie.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,6 +37,8 @@ import java.util.stream.Collectors;
 public class ReportController {
     @Autowired
     private ReportService reportService;
+    @Autowired
+    private WorkSpaceService workSpaceService;
 
 
     /**
@@ -203,6 +208,69 @@ public class ReportController {
                 .build();
         return R.success(top10ReportVO);
     }
+
+    /**
+     * 导出Excel报表
+     */
+    @GetMapping("/export")
+    @ApiOperation("导出Excel报表接口")
+    public void export(HttpServletResponse response) throws IOException {
+        //计算日期范围
+        LocalDate begin = LocalDate.now().plusDays(-30);
+        LocalDate end = LocalDate.now().plusDays(-1);
+        //查询最近30天的运营数据
+        BusinessDataVO businessData = workSpaceService.getBusinessData(LocalDateTime.of(begin, LocalTime.MIN),
+                LocalDateTime.of(end, LocalTime.MAX));
+
+        //通过输入流读取模板文件
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("template/运营数据报表模板.xlsx");
+        //创建表格对象
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        //获得第1个工作表
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        //获取第二行
+        XSSFRow row = sheet.getRow(1);
+        //写入时间范围
+        row.getCell(1).setCellValue("时间：" + begin + "至" + end);//时间范围
+
+        //获取第三行
+        row = sheet.getRow(3);
+        row.getCell(2).setCellValue(businessData.getTurnover());//营业额
+        row.getCell(4).setCellValue(businessData.getOrderCompletionRate());//订单完成率
+        row.getCell(6).setCellValue(businessData.getNewUsers());//新增用户数
+
+        //获取第四行
+        row = sheet.getRow(4);
+        row.getCell(2).setCellValue(businessData.getValidOrderCount());//有效订单
+        row.getCell(4).setCellValue(businessData.getUnitPrice());//平均客单价
+
+
+        int rowNum = 7;
+        //循环插入30天数据
+        for (int i = 0; i < 30; i++) {
+            LocalDate date = begin.plusDays(i);
+            //查询某天的运营数据
+            businessData = workSpaceService.getBusinessData(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date, LocalTime.MAX));
+
+            row = sheet.getRow(rowNum++);  //获取当天的行号
+            row.getCell(1).setCellValue(date.toString());                       //当天的时间
+            row.getCell(2).setCellValue(businessData.getTurnover());            //当天的营业额
+            row.getCell(3).setCellValue(businessData.getValidOrderCount());     //当天的有效订单
+            row.getCell(4).setCellValue(businessData.getOrderCompletionRate()); //当天的订单完成率
+            row.getCell(5).setCellValue(businessData.getUnitPrice());           //当天的平均客单价
+            row.getCell(6).setCellValue(businessData.getNewUsers());            //当天的新增用户数
+        }
+
+        //获得输出流
+        ServletOutputStream out = response.getOutputStream();
+        //通过输出流将内存中的Excel文件写到客户端浏览器
+        workbook.write(out);
+        //关闭资源
+        out.flush();
+        out.close();
+        workbook.close();
+    }
+
 }
 
 
