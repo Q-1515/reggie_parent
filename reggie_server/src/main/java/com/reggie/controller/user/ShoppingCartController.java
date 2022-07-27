@@ -45,6 +45,7 @@ public class ShoppingCartController {
      * @return 购物车信息
      */
     @GetMapping("/list")
+    @ApiOperation("查询购物车")
     public R<List<ShoppingCart>> list() {
         log.info("查询购物车");
         List<ShoppingCart> shoppingCarts = shoppingCartService.list();

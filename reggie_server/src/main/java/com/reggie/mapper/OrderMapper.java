@@ -1,6 +1,7 @@
 package com.reggie.mapper;
 
 import com.github.pagehelper.Page;
+import com.reggie.dto.GoodsSalesDTO;
 import com.reggie.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -72,4 +73,7 @@ public interface OrderMapper {
 
     //获取今天总营业额
     Double sumByMap(Map<String, Object> map);
+
+    //统计指定时间段内的商品销量排名top10
+    List<GoodsSalesDTO> orderMapper(Map<String, Object> map);
 }
